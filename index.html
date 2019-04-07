@@ -1,0 +1,15 @@
+<html>
+<head>
+	
+	<script src='element.js'></script>	
+</head>
+<body>
+	<my-element></my-element>
+	<script>
+		let el = document.querySelector("my-element");
+		el.on("COMPLETE", (e) => {
+			console.log(e.target);
+		});
+	</script>
+</body>
+</html>
