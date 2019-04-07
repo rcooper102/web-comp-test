@@ -58,6 +58,14 @@ class GBIElement extends HTMLElement {
     return !abort;
   }
 
+  child(target) {
+    return this.querySelector(target);
+  }
+
+  prop(target) {
+    return this.getAttribute(target);
+  }
+
   render() {
 
   }
@@ -70,9 +78,9 @@ class GBITile extends GBIElement {
 	}
 
 	connectedCallback() {
-    this.state.name = this.getAttribute('name');
-    this.state.price = this.getAttribute('price');
-    this.state.image = this.getAttribute('image');
+    this.state.name = this.prop('name');
+    this.state.price = this.prop('price');
+    this.state.image = this.prop('image');
     this.set();
   }
 
@@ -111,7 +119,7 @@ class GBITile extends GBIElement {
         <price>$${this.price}</price>
         <button>Add to Cart</button>
     `;
-    this.querySelector("button").addEventListener("click", this.onAdd)
+    this.child("button").addEventListener("click", this.onAdd)
   }
 
 }
