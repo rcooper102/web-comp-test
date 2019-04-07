@@ -46,20 +46,37 @@ class GBIElement extends HTMLElement {
   }
 }
 
-class MyElement extends GBIElement {
+class GBITile extends GBIElement {
 
 	constructor() {
-		super();		
-		setTimeout(() => {
-			this.emit("COMPLETE",{target:this});
-		}, 4000);
-    this.msg = "Hello World";
+		super();
+    this.onAdd = this.onAdd.bind(this);
 	}
 
 	connectedCallback() {
-    this.innerHTML = `<p>${this.msg}</p>`;
+    this.name = this.getAttribute('name');
+    this.price = this.getAttribute('price');
+    this.image = this.getAttribute('image');
+    this.render();
+  }
+
+  onAdd() {
+    this.emit("GBI_ADD_TO_CARD", {target: this});
+  }
+
+  render() {
+    this.innerHTML = `
+        <img src='${this.image}' />
+        <name>${this.name}</name>
+        <price>${this.price}</price>
+        <button>Add to Cart</button>
+    `;
+    this.querySelector("button").addEventListener("click", this.onAdd)
   }
 
 }
 
-window.customElements.define('my-element', MyElement);
+window.customElements.define('gb-tile', GBITile);
+
+
+

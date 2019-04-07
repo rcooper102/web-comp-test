@@ -5,17 +5,58 @@
 </head>
 <body>
 	<style>
-		my-element p {
-			font-size:36px;
+		body {
+			font-family: Arial;
+			background: #EEE;
+		}
+		gb-tile {
+			display: inline-block;
+			padding: 20px;
+			height: 490px;
+			width: 300px;
+			flex: 1;
+			margin: 10px;
+			background: #FFF;
+		}
+		gb-tile img {
+			display: block;
+			margin: 0 auto;
+			margin-bottom: 10px;
+			max-width: 100%;
+		}
+		gb-tile name {
+			display: block;
+			font-size: 24px;
+			color: #666;
+			border-top:1px solid #EEE;
+			padding-top:10px;
+		}
 
+		gb-tile price {
+			display: block;
+			font-size: 36px;
+			color: #900;
+			font-weight: bold;
+		}
+
+		gb-tile button {
+			background: #900;
+			color: #FFF;
+			font-weight: bold;
+			font-size: 24px;
+			margin-top: 20px;
+			padding: 10px;
 		}
 	</style>
-	<my-element></my-element>
+	<gb-tile
+		name='Haribo Gold Bears Gummi Candy Original, 8 OZ'
+		price='2.99'
+		image='https://www.cvs.com/bizcontent/merchandising/productimages/large/4223830281.jpg',
+	></gb-tile>	
 	<script>
-		let el = document.querySelector("my-element");
-		el.on("COMPLETE", (e) => {
-			console.log(e.target);
-		});
+		document.querySelector("gb-tile").on("GBI_ADD_TO_CARD", (e) =>{
+			alert(`${e.target.name} has been added to the cart`);
+		})
 	</script>
 </body>
 </html>
