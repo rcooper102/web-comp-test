@@ -1,7 +1,20 @@
 class GBIElement extends HTMLElement {
-  constructor() {
+  constructor(render) {
     super();
     this.listenerLibrary = {};
+    this.state = {};
+  }
+
+  set(target) {
+    if(target) {
+      this.state = {
+        ...this.state,
+        ...target,
+      };
+    }
+    if(this.render) {
+      this.render();
+    }
   }
 
   /* * Adds an event listener to this object
@@ -44,6 +57,10 @@ class GBIElement extends HTMLElement {
     // Return `true` if process executed as expected, `false` if aborted.
     return !abort;
   }
+
+  render() {
+
+  }
 }
 
 class GBITile extends GBIElement {
@@ -53,11 +70,35 @@ class GBITile extends GBIElement {
 	}
 
 	connectedCallback() {
-    this.name = this.getAttribute('name');
-    this.price = this.getAttribute('price');
-    this.image = this.getAttribute('image');
-    this.render();
+    this.state.name = this.getAttribute('name');
+    this.state.price = this.getAttribute('price');
+    this.state.image = this.getAttribute('image');
+    this.set();
   }
+
+  set name(target) {
+    this.set({
+      name: target,
+    })
+  }
+
+  get name() { return this.state.name }
+
+  get price() { return this.state.price }
+
+  set price(target) {
+    this.set({
+      price: Number(target),
+    })
+  }
+
+  get image() { return this.state.image }
+
+  set image(target) {
+    this.set({
+      image: target,
+    })
+  }  
 
   onAdd = () => {
     this.emit("GBI_ADD_TO_CARD", {target: this});
