@@ -1,7 +1,6 @@
 class GBIElement extends HTMLElement {
   constructor() {
     super();
-    this.shadow = this.attachShadow({mode: 'open'})
     this.listenerLibrary = {};
   }
 
@@ -54,17 +53,12 @@ class MyElement extends GBIElement {
 		setTimeout(() => {
 			this.emit("COMPLETE",{target:this});
 		}, 4000);
-
-		this.shadow.innerHTML = this.render();
+    this.msg = "Hello World";
 	}
 
-	render(){
-		return `
-			<div>
-				Hello World!
-			</div>
-		`;
-	}
+	connectedCallback() {
+    this.innerHTML = `<p>${this.msg}</p>`;
+  }
 
 }
 
