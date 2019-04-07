@@ -50,7 +50,6 @@ class GBITile extends GBIElement {
 
 	constructor() {
 		super();
-    this.onAdd = this.onAdd.bind(this);
 	}
 
 	connectedCallback() {
@@ -60,11 +59,11 @@ class GBITile extends GBIElement {
     this.render();
   }
 
-  onAdd() {
+  onAdd = () => {
     this.emit("GBI_ADD_TO_CARD", {target: this});
   }
 
-  render() {
+  render = () => {
     this.innerHTML = `
         <img src='${this.image}' />
         <name>${this.name}</name>
