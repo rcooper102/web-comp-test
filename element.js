@@ -147,10 +147,12 @@ class GBIGrid extends GBIElement {
   }
 
   connectedCallback() {
+    console.time("Data Load");
     fetch("https://my.api.mockaroo.com/fake_products.json", { headers: { "X-API-Key": "44f77fe0" }
     }).then((response) => {
       return response.json();
     }).then((data) => {
+      console.timeEnd("Data Load");
       data.forEach((item) => { this.list.push(item) });
       this.render();
     });

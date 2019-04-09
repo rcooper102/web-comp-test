@@ -47,5 +47,5 @@ gb-tile button {
 
 gb-grid {
 	display: grid;
-	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+	grid-template-columns: 1fr 1fr 1fr 1fr;
 }
