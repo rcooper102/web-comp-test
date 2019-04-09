@@ -1,0 +1,51 @@
+body {
+	font-family: Arial;
+	background: #EEE;
+}
+gb-tile {
+	display: inline-block;
+	padding: 20px;
+	height: 490px;
+	flex: 1;
+	margin: 10px;
+	background: #FFF;
+}
+gb-tile img {
+	margin: 0 auto;
+	margin-bottom: 10px;
+	max-width: 100%;
+}
+gb-tile name {
+	display: block;
+	font-size: 24px;
+	color: #666;
+	border-top:1px solid #EEE;
+	padding-top:10px;
+}
+
+gb-tile price {
+	display: flex;
+	font-size: 36px;
+	color: #900;
+	font-weight: bold;
+}
+
+gb-tile photo{
+	display: flex;
+	height: 50%;
+	align-items: center;
+}
+
+gb-tile button {
+	background: #900;
+	color: #FFF;
+	font-weight: bold;
+	font-size: 24px;
+	margin-top: 20px;
+	padding: 10px;
+}
+
+gb-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}

@@ -1,6 +1,11 @@
 class GBIElement extends HTMLElement {
-  constructor(render) {
+  constructor(props) {
     super();
+    if(props) {
+      Object.keys(props).forEach((item) => {
+        this.setAttribute(item, props[item]);
+      });
+    }
     this.listenerLibrary = {};
     this.state = {};
   }
@@ -63,7 +68,13 @@ class GBIElement extends HTMLElement {
   }
 
   prop(target) {
-    return this.getAttribute(target);
+    const prop = this.getAttribute(target);
+    if(typeof prop === "string") {
+      if(prop.substr(0,1) === "[" || prop.substr(0,1) === "{") {
+        return JSON.parse(prop);
+      }
+    }
+    return prop;
   }
 
   render() {
@@ -73,8 +84,8 @@ class GBIElement extends HTMLElement {
 
 class GBITile extends GBIElement {
 
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 	}
 
 	connectedCallback() {
@@ -114,7 +125,7 @@ class GBITile extends GBIElement {
 
   render = () => {
     this.innerHTML = `
-        <img src='${this.image}' />
+        <photo><img src='${this.image}' /></photo>
         <name>${this.name}</name>
         <price>$${this.price}</price>
         <button>Add to Cart</button>
@@ -124,7 +135,38 @@ class GBITile extends GBIElement {
 
 }
 
-window.customElements.define('gb-tile', GBITile);
+class GBIGrid extends GBIElement {
 
+  constructor() {
+    super();
+    this.list = [];
+  }
+
+  connectedCallback() {
+    fetch("https://my.api.mockaroo.com/fake_products.json", { headers: { "X-API-Key": "44f77fe0" }
+    }).then((response) => {
+      return response.json();
+    }).then((data) => {
+      data.forEach((item) => { this.list.push(item) });
+      this.render();
+    });
+  }
+
+  render = () => {
+    console.time("Render");
+    this.list.forEach((item) => {
+      const li = new GBITile(item);
+      li.on("GBI_ADD_TO_CARD", (e) => {
+         this.emit("GBI_ADD_TO_CARD", e);
+      });
+      this.appendChild(li);
+    });
+    console.timeEnd("Render");
+  }
+
+}
+
+window.customElements.define('gb-grid', GBIGrid);
+window.customElements.define('gb-tile', GBITile);
 
 
