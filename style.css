@@ -9,6 +9,7 @@ gb-tile {
 	flex: 1;
 	margin: 10px;
 	background: #FFF;
+	box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.1);
 }
 gb-tile img {
 	margin: 0 auto;
