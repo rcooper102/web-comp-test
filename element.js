@@ -22,11 +22,6 @@ class GBIElement extends HTMLElement {
     }
   }
 
-  /* * Adds an event listener to this object
-  * @param {string} type - The listener type as a string
-  * @param {function} method - The function to call when the event is emitted
-  * @param {boolean} once - Whether the listener self removes itself after firing once or not
-  * */
   on(type, method, once = false) {
     if (this.listenerLibrary[type] === undefined) {
       this.listenerLibrary[type] = [];
@@ -45,7 +40,6 @@ class GBIElement extends HTMLElement {
   }
 
   emit(type, evt) {
-    // Can't break out of `forEach`, use `abort` to determine whether to invoke each method.
     let abort;
 
     if (this.listenerLibrary[type] && Array.isArray(this.listenerLibrary[type])) {
@@ -59,7 +53,6 @@ class GBIElement extends HTMLElement {
       });
     }
 
-    // Return `true` if process executed as expected, `false` if aborted.
     return !abort;
   }
 
@@ -78,7 +71,6 @@ class GBIElement extends HTMLElement {
   }
 
   render() {
-
   }
 }
 
@@ -95,30 +87,6 @@ class GBITile extends GBIElement {
     this.set();
   }
 
-  set name(target) {
-    this.set({
-      name: target,
-    })
-  }
-
-  get name() { return this.state.name }
-
-  get price() { return this.state.price }
-
-  set price(target) {
-    this.set({
-      price: Number(target),
-    })
-  }
-
-  get image() { return this.state.image }
-
-  set image(target) {
-    this.set({
-      image: target,
-    })
-  }  
-
   onAdd = () => {
     this.emit("GBI_ADD_TO_CARD", {target: this});
   }
@@ -129,9 +97,9 @@ class GBITile extends GBIElement {
 
   render = () => {
     this.innerHTML = `
-        <photo><img src='${this.image}' /></photo>
-        <name>${this.name}</name>
-        <price>$${this.formatNumber(this.price)}</price>
+        <photo><img src='${this.state.image}' /></photo>
+        <name>${this.state.name}</name>
+        <price>$${this.formatNumber(this.state.price)}</price>
         <button>Add to Cart</button>
     `;
     this.child("button").addEventListener("click", this.onAdd)
