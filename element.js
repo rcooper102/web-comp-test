@@ -123,11 +123,15 @@ class GBITile extends GBIElement {
     this.emit("GBI_ADD_TO_CARD", {target: this});
   }
 
+  formatNumber(x) {
+      return parseFloat(Math.round(x * 100) / 100).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
   render = () => {
     this.innerHTML = `
         <photo><img src='${this.image}' /></photo>
         <name>${this.name}</name>
-        <price>$${this.price}</price>
+        <price>$${this.formatNumber(this.price)}</price>
         <button>Add to Cart</button>
     `;
     this.child("button").addEventListener("click", this.onAdd)
