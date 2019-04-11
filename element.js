@@ -89,8 +89,6 @@ class GBITile extends GBIElement {
 
 	constructor(props) {
 		super(props);
-    this.onImageLoad = this.onImageLoad.bind(this);
-    this.onAdd = this.onAdd.bind(this);
 	}
 
 	connectedCallback() {
@@ -101,12 +99,13 @@ class GBITile extends GBIElement {
       variants: this.prop('variants'),
       stock: this.prop('stock'),
     });
+    this.classList.add('loading');
     const img = new Image();
     img.addEventListener('load', this.onImageLoad);
     img.src = this.state.image;
   }
 
-  onImageLoad() {
+  onImageLoad = () => {
     this.classList.remove('loading');
   }
 
@@ -114,12 +113,11 @@ class GBITile extends GBIElement {
     this.emit('GBI_ADD_TO_CART', {target: this});
   }
 
-  formatNumber(x) {
+  formatNumber = (x) => {
       return parseFloat(Math.round(x * 100) / 100).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
 
   render = () => {
-    this.classList.add('loading');
     this.innerHTML = `
         <photo><img src="${this.state.image}" /></photo>
         <info>
@@ -136,31 +134,21 @@ class GBITile extends GBIElement {
 
 class GBIGrid extends GBIElement {
 
-  constructor() {
-    super();
-    this.list = [];
-    this.onAddToCart = this.onAddToCart.bind(this);
+  constructor(props) {
+    super(props);
   }
 
   connectedCallback() {
-    console.time('Data Load');
-    fetch('https://my.api.mockaroo.com/fake_products.json', { headers: { 'X-API-Key': '44f77fe0' }
-    }).then((response) => {
-      return response.json();
-    }).then((data) => {
-      console.timeEnd('Data Load');
-      data.forEach((item) => { this.list.push(item) });
-      this.render();
-    });
+    this.set({ list: this.prop('data')});
   }
 
-  onAddToCart(e) {
+  onAddToCart = (e) => {
     this.emit('GBI_ADD_TO_CART', e);
   }
 
   render = () => {
     console.time('Render');
-    this.list.forEach((item) => {
+    this.state.list.forEach((item) => {
       const li = new GBITile(item);
       this.appendChild(li);
       li.on('GBI_ADD_TO_CART', this.onAddToCart);
