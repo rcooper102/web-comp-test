@@ -4,13 +4,22 @@ body {
 }
 gb-tile {
 	display: inline-block;
-	padding: 20px;
-	height: 490px;
+	padding: 19px;
+	height: 400px;
 	flex: 1;
-	margin: 10px;
+	margin: 4px;
 	background: #FFF;
 	box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.1);
+	overflow: hidden;
+	border-radius: 2px;
+	transition: box-shadow 0.15s;
+	cursor: pointer;
 }
+
+gb-tile:hover{
+	box-shadow: 0px 0px 1px 1px rgba(0,0,0,0.2);
+}
+
 gb-tile img {
 	margin: 0 auto;
 	margin-bottom: 10px;
@@ -18,7 +27,8 @@ gb-tile img {
 }
 gb-tile name {
 	display: block;
-	font-size: 24px;
+	font-size: 20px;
+	font-weight: bold;
 	color: #666;
 	border-top:1px solid #EEE;
 	padding-top:10px;
@@ -29,6 +39,11 @@ gb-tile price {
 	font-size: 36px;
 	color: #900;
 	font-weight: bold;
+}
+
+gb-tile info {
+	display: block;
+	height: calc(50% - 70px);
 }
 
 gb-tile photo{
@@ -49,6 +64,17 @@ gb-tile button {
 	font-size: 24px;
 	margin-top: 20px;
 	padding: 10px;
+	transition: background 0.15s;
+	display: block;
+	width: 100%;
+	border-radius: 5px;
+	overflow: hidden;
+	box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.1);
+}
+
+gb-tile button:hover {
+	background: #600;
+	cursor: pointer;;
 }
 
 gb-grid {

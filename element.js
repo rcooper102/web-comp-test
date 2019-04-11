@@ -114,8 +114,10 @@ class GBITile extends GBIElement {
     this.classList.add('loading');
     this.innerHTML = `
         <photo><img src="${this.state.image}" /></photo>
-        <name>${this.state.name}</name>
-        <price>$${this.formatNumber(this.state.price)}</price>
+        <info>
+          <name>${this.state.name}</name>
+          <price>$${this.formatNumber(this.state.price)}</price>
+        </info>
         <button>Add to Cart</button>
     `;
     this.child('button').addEventListener('click', this.onAdd)
