@@ -63,7 +63,7 @@ class GBIElement extends HTMLElement {
   prop(target) {
     const prop = this.getAttribute(target);
     if(typeof prop === "string") {
-      if(prop.substr(0,1) === "[" || prop.substr(0,1) === "{") {
+      if(prop.substr(0,1) === '[' || prop.substr(0,1) === '{') {
         return JSON.parse(prop);
       }
     }
@@ -84,6 +84,8 @@ class GBITile extends GBIElement {
 
 	constructor(props) {
 		super(props);
+    this.onImageLoad = this.onImageLoad.bind(this);
+    this.onAdd = this.onAdd.bind(this);
 	}
 
 	connectedCallback() {
@@ -91,24 +93,32 @@ class GBITile extends GBIElement {
     this.state.price = this.prop('price');
     this.state.image = this.prop('image');
     this.set();
+    const img = new Image();
+    img.addEventListener('load', this.onImageLoad);
+    img.src = this.state.image;
+  }
+
+  onImageLoad() {
+    this.classList.remove('loading');
   }
 
   onAdd = () => {
-    this.emit("GBI_ADD_TO_CART", {target: this});
+    this.emit('GBI_ADD_TO_CART', {target: this});
   }
 
   formatNumber(x) {
-      return parseFloat(Math.round(x * 100) / 100).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      return parseFloat(Math.round(x * 100) / 100).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
 
   render = () => {
+    this.classList.add('loading');
     this.innerHTML = `
-        <photo><img src='${this.state.image}' /></photo>
+        <photo><img src="${this.state.image}" /></photo>
         <name>${this.state.name}</name>
         <price>$${this.formatNumber(this.state.price)}</price>
         <button>Add to Cart</button>
     `;
-    this.child("button").addEventListener("click", this.onAdd)
+    this.child('button').addEventListener('click', this.onAdd)
   }
 
 }
@@ -122,29 +132,29 @@ class GBIGrid extends GBIElement {
   }
 
   connectedCallback() {
-    console.time("Data Load");
-    fetch("https://my.api.mockaroo.com/fake_products.json", { headers: { "X-API-Key": "44f77fe0" }
+    console.time('Data Load');
+    fetch('https://my.api.mockaroo.com/fake_products.json', { headers: { 'X-API-Key': '44f77fe0' }
     }).then((response) => {
       return response.json();
     }).then((data) => {
-      console.timeEnd("Data Load");
+      console.timeEnd('Data Load');
       data.forEach((item) => { this.list.push(item) });
       this.render();
     });
   }
 
   onAddToCart(e) {
-    this.emit("GBI_ADD_TO_CART", e);
+    this.emit('GBI_ADD_TO_CART', e);
   }
 
   render = () => {
-    console.time("Render");
+    console.time('Render');
     this.list.forEach((item) => {
       const li = new GBITile(item);
       this.appendChild(li);
-      li.on("GBI_ADD_TO_CART", this.onAddToCart);
+      li.on('GBI_ADD_TO_CART', this.onAddToCart);
     });
-    console.timeEnd("Render");
+    console.timeEnd('Render');
   }
 }
 

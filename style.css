@@ -35,6 +35,11 @@ gb-tile photo{
 	display: flex;
 	height: 50%;
 	align-items: center;
+	transition: opacity 1s;
+}
+
+gb-tile.loading photo {
+	opacity: 0;
 }
 
 gb-tile button {
