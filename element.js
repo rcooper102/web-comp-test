@@ -94,12 +94,13 @@ class GBITile extends GBIElement {
 	}
 
 	connectedCallback() {
-    this.state.name = this.prop('name');
-    this.state.price = this.prop('price');
-    this.state.image = this.prop('image');
-    this.state.variants = this.prop('variants');
-    this.state.stock = this.prop('stock');
-    this.set();
+    this.set({
+      name: this.prop('name'),
+      price: this.prop('price'),
+      image: this.prop('image'),
+      variants: this.prop('variants'),
+      stock: this.prop('stock'),
+    });
     const img = new Image();
     img.addEventListener('load', this.onImageLoad);
     img.src = this.state.image;

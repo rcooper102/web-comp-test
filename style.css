@@ -52,6 +52,23 @@ gb-tile stock.warning {
 	font-weight: bold;
 }
 
+gb-tile stock.warning:before {
+	display: block;
+	content: "!";
+	color: #FFF;
+	background: #D00;
+	float: left;
+	width:15px;
+	height:13px;
+	border-radius: 15px;
+	text-align: center;
+	font-size:10px;
+	padding-top:2px;
+	margin-right: 5px;
+	position: relative;
+	top: -1px;
+}
+
 gb-tile info {
 	display: block;
 	height: calc(50% - 66px);
