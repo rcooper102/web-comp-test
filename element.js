@@ -75,6 +75,15 @@ class GBIElement extends HTMLElement {
     return prop;
   }
 
+  get props() {
+    const ret = {};
+    const l = this.attributes.length;
+    for(let i = 0; i < l; i++) {
+      ret[this.attributes[i].name] = this.prop(this.attributes[i].name);
+    }
+    return ret;
+  }
+
   render() {
   }
 
@@ -93,11 +102,7 @@ class GBITile extends GBIElement {
 
 	connectedCallback() {
     this.set({
-      name: this.prop('name'),
-      price: this.prop('price'),
-      image: this.prop('image'),
-      variants: this.prop('variants'),
-      stock: this.prop('stock'),
+      ...this.props,
     });
     this.classList.add('loading');
     const img = new Image();
@@ -113,8 +118,8 @@ class GBITile extends GBIElement {
     this.emit('GBI_ADD_TO_CART', {target: this});
   }
 
-  formatNumber = (x) => {
-      return parseFloat(Math.round(x * 100) / 100).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  formatNumber = (target) => {
+      return parseFloat(Math.round(target * 100) / 100).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
 
   render = () => {
@@ -129,7 +134,6 @@ class GBITile extends GBIElement {
     `;
     this.child('button').addEventListener('click', this.onAdd)
   }
-
 }
 
 class GBIGrid extends GBIElement {
