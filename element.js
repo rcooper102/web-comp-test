@@ -72,6 +72,12 @@ class GBIElement extends HTMLElement {
 
   render() {
   }
+
+  static defineElements(elements){
+    Object.keys(elements).forEach((item) => {
+      window.customElements.define(item, elements[item]);
+    });
+  }
 }
 
 class GBITile extends GBIElement {
@@ -88,7 +94,7 @@ class GBITile extends GBIElement {
   }
 
   onAdd = () => {
-    this.emit("GBI_ADD_TO_CARD", {target: this});
+    this.emit("GBI_ADD_TO_CART", {target: this});
   }
 
   formatNumber(x) {
@@ -112,6 +118,7 @@ class GBIGrid extends GBIElement {
   constructor() {
     super();
     this.list = [];
+    this.onAddToCart = this.onAddToCart.bind(this);
   }
 
   connectedCallback() {
@@ -126,21 +133,27 @@ class GBIGrid extends GBIElement {
     });
   }
 
+  onAddToCart(e) {
+    this.emit("GBI_ADD_TO_CART", e);
+  }
+
   render = () => {
     console.time("Render");
     this.list.forEach((item) => {
       const li = new GBITile(item);
-      li.on("GBI_ADD_TO_CARD", (e) => {
-         this.emit("GBI_ADD_TO_CARD", e);
-      });
       this.appendChild(li);
+      li.on("GBI_ADD_TO_CART", this.onAddToCart);
     });
     console.timeEnd("Render");
   }
-
 }
 
-window.customElements.define('gb-grid', GBIGrid);
-window.customElements.define('gb-tile', GBITile);
+GBIElement.defineElements({
+  'gb-grid': GBIGrid,
+  'gb-tile': GBITile,
+});
+
+
+
 
 
