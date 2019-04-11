@@ -84,8 +84,7 @@ class GBIElement extends HTMLElement {
     return ret;
   }
 
-  render() {
-  }
+  render() {}
 
   static defineElements(elements){
     Object.keys(elements).forEach((item) => {
@@ -143,7 +142,7 @@ class GBIGrid extends GBIElement {
   }
 
   connectedCallback() {
-    this.set({ list: this.prop('data')});
+    this.set({ list: this.prop('data') });
   }
 
   onAddToCart = (e) => {
