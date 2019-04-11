@@ -1,9 +1,11 @@
 class GBIElement extends HTMLElement {
   constructor(props) {
     super();
+    this._props = {};
     if(props) {
       Object.keys(props).forEach((item) => {
-        this.setAttribute(item, props[item]);
+        this.setAttribute(item, typeof props[item] === "object" || typeof props[item] === "array" ? JSON.stringify(props[item]) : props[item]);
+        this._props[item] = props[item];
       });
     }
     this.listenerLibrary = {};
@@ -61,6 +63,9 @@ class GBIElement extends HTMLElement {
   }
 
   prop(target) {
+    if(this._props[target]) {
+      return this._props[target];
+    }
     const prop = this.getAttribute(target);
     if(typeof prop === "string") {
       if(prop.substr(0,1) === '[' || prop.substr(0,1) === '{') {
@@ -92,6 +97,8 @@ class GBITile extends GBIElement {
     this.state.name = this.prop('name');
     this.state.price = this.prop('price');
     this.state.image = this.prop('image');
+    this.state.variants = this.prop('variants');
+    this.state.stock = this.prop('stock');
     this.set();
     const img = new Image();
     img.addEventListener('load', this.onImageLoad);
@@ -117,8 +124,9 @@ class GBITile extends GBIElement {
         <info>
           <name>${this.state.name}</name>
           <price>$${this.formatNumber(this.state.price)}</price>
+          <stock class="${ this.state.stock <= 5 ? 'warning' : '' }">${this.state.stock} in stock</stock>
         </info>
-        <button>Add to Cart</button>
+        <button>${ this.state.variants.length > 1 ? 'Choose Options' : 'Add to Cart' }</button>
     `;
     this.child('button').addEventListener('click', this.onAdd)
   }

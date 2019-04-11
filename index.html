@@ -7,8 +7,13 @@
 <body>
 	<gb-grid></gb-grid>	
 	<script>
-		document.querySelector("gb-grid").on("GBI_ADD_TO_CART", (e) =>{
-			alert(`${e.target.name} has been added to the cart`);
+		document.querySelector('gb-grid').on('GBI_ADD_TO_CART', (e) => {
+			const name = e.target.prop('name');
+			if(e.target.prop('variants').length > 1) {
+				alert(`${name} select variants`);
+			} else {
+				alert(`${name} has been added to the cart`);
+			}
 		})
 	</script>
 </body>
